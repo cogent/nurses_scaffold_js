@@ -1,0 +1,14 @@
+{
+  "name": "nurse_rostering",
+  "version": "1.0.0",
+  "description": "Create a roster for a group of nurses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Your Name Here",
+  "license": "UNLICENCED",
+  "dependencies": {
+    "yargs": "^12.0.5"
+  }
+}
