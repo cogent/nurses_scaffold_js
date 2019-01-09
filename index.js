@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+const { NurseRosterer } = require('./src/rostering/NurseRosterer');
+const { RosterFormatter } = require('./src/rostering/RosterFormatter');
+
 fs = require("fs")
 
 const validateArgs = (args) => {
@@ -31,6 +33,15 @@ const validateArgs = (args) => {
   }
 }
 
+const getRosteredNurses = (args) => {
+  // Just an example. Tackle this however you like.
+  return new NurseRosterer(args["filename"], args["start-date"], args["end-date"]).build();
+}
+
+const outputFormattedRoster = (roster) => {
+  (new RosterFormatter(roster)).output();
+}
+
 require("yargs")
   .usage("$0 <cmd> [args]")
   .option("start-date", {
@@ -53,6 +64,7 @@ require("yargs")
     () => {},
     argv => {
       validateArgs(argv)
+      outputFormattedRoster(getRosteredNurses(argv))
     }
   )
   .help().argv
