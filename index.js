@@ -4,11 +4,11 @@ fs = require("fs")
 const validateArgs = (args) => {
   let errors = [];
 
-  if(isNaN(Date.parse(args["start-date"]))){
+  if(isNaN(args["start-date"])){
     errors.push("please provide valid start date");
   }
 
-  if(isNaN(Date.parse(args["end-date"]))){
+  if(isNaN(args["end-date"])){
     errors.push("please provide valid end date");
   }
 
@@ -16,7 +16,7 @@ const validateArgs = (args) => {
     errors.push("input file does not exist");
   }
 
-  if(Date.parse(args["start-date"]) > Date.parse(args["end-date"])){
+  if(args["start-date"] > args["end-date"]){
     errors.push("please provide a valid date range");
   }
 
@@ -45,6 +45,7 @@ require("yargs")
     alias: "f",
     describe: "a nurses file to import"
   })
+  .coerce(["start-date", "end-date"], Date.parse)
   .demandOption(["start-date", "end-date", "filename"])
   .command(
     "$0",
@@ -52,7 +53,6 @@ require("yargs")
     () => {},
     argv => {
       validateArgs(argv)
-
     }
   )
   .help().argv
