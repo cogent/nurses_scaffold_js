@@ -1,3 +1,36 @@
+#!/usr/bin/env node
+fs = require("fs")
+
+const validateArgs = (args) => {
+  let errors = [];
+
+  if(isNaN(Date.parse(args["start-date"]))){
+    errors.push("please provide valid start date");
+  }
+
+  if(isNaN(Date.parse(args["end-date"]))){
+    errors.push("please provide valid end date");
+  }
+
+  if(!fs.existsSync(args["filename"])){
+    errors.push("input file does not exist");
+  }
+
+  if(Date.parse(args["start-date"]) > Date.parse(args["end-date"])){
+    errors.push("please provide a valid date range");
+  }
+
+  if(errors.length > 0) {
+    console.log("\n" + errors.length + " parameter errors found:");
+    console.log("===============================")
+    errors.forEach(function(error){
+      console.log("- " + error);
+    })
+    console.log("\n");
+    process.exit()
+  }
+}
+
 require("yargs")
   .usage("$0 <cmd> [args]")
   .option("start-date", {
@@ -18,7 +51,8 @@ require("yargs")
     "Build a nurses roster",
     () => {},
     argv => {
-      console.log("this command will be run by default")
+      validateArgs(argv)
+
     }
   )
   .help().argv
