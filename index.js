@@ -39,7 +39,7 @@ const getRosteredNurses = (args) => {
 }
 
 const outputFormattedRoster = (roster) => {
-  (new RosterFormatter(roster)).output();
+  (new RosterFormatter(console.log, roster)).output();
 }
 
 require("yargs")

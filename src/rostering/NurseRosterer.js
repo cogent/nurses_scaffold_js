@@ -4,7 +4,7 @@ class NurseRosterer {
   }
 
   build() {
-    
+    throw "NurseRosterer#build Not Implemented"
   }
 }
 
