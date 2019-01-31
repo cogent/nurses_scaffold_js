@@ -1,8 +1,8 @@
 const { RosterFormatter } = require('./RosterFormatter');
 
-describe("Pretty Printing", () => {
-  it("Writes the shift, then the nurses assigned to that shift", () => {
-    // Obvs can be an array of typed objects using ES6 Getters too...
+describe('Pretty Printing', () => {
+  it('Writes the shift, then the nurses assigned to that shift', () => {
+    // Could also be an array of typed objects using ES6 Getters too...
     const roster = [
       {
         shiftType: 'morning',
@@ -34,10 +34,11 @@ describe("Pretty Printing", () => {
       }
     ]
 
-    const loggingFunction = jest.fn()
+    const loggingFunction = jest.fn();
+    const formatter = new RosterFormatter(loggingFunction, roster);
+    
+    formatter.output();
 
-    const formatter = new RosterFormatter(loggingFunction, roster)
-    formatter.output()
-    expect(loggingFunction).toHaveBeenCalledWith("Mon Jan 10 1972 | morning | Bill, Ted\nTue Sep 21 1993 | evening | Wayne, Garth\n");
+    expect(loggingFunction).toHaveBeenCalledWith('Mon Jan 10 1972 | morning | Bill, Ted\nTue Sep 21 1993 | evening | Wayne, Garth\n');
   }) 
 })

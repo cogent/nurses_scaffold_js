@@ -10,18 +10,18 @@ class RosterFormatter {
 
   _formattedRoster() {
     return this.roster.reduce((completeOutput, shift) => {
-      return completeOutput + this._shiftLine(shift) + "\n"
+      return completeOutput + this._shiftLine(shift) + '\n'
     }, '')
   }
 
   _shiftLine(shift){
-    return shift.date.toDateString() + " | " + shift.shiftType + " | " + this._nursesForShift(shift) 
+    return shift.date.toDateString() + ' | ' + shift.shiftType + ' | ' + this._nursesForShift(shift) 
   }
 
   _nursesForShift(shift){
-    return shift.nurses.reduce((memo, nurse) => {
-      return memo + (memo.length > 0 ? ", " : "") + nurse.name
-    }, '')
+    return shift.nurses.map((nurse) => {
+      return nurse.name
+    }).join(', ')
   }
 
 }
