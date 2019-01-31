@@ -33,8 +33,8 @@ const validateArgs = (args) => {
   }
 }
 
+// Just an example. Tackle this however you like.
 const getRosteredNurses = (args) => {
-  // Just an example. Tackle this however you like.
   return new NurseRosterer(args["filename"], args["start-date"], args["end-date"]).build();
 }
 
