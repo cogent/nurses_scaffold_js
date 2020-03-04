@@ -11,9 +11,9 @@ const loadNurses = async filename => {
 const build = async ({filename, startDate, endDate}) => {
   const nurses = await loadNurses(filename)
 
-  throw 'NurseRosterer#build Not Implemented'
+  throw 'RosterBuilder#build Not Implemented'
 }
 
-export const NurseRosterer = {
+export const RosterBuilder = {
   build
 }
