@@ -1,4 +1,4 @@
-const { RosterFormatter } = require('./RosterFormatter');
+import {RosterFormatter} from '../index'
 
 describe('Pretty Printing', () => {
   it('Writes the shift, then the nurses assigned to that shift', () => {
@@ -16,7 +16,7 @@ describe('Pretty Printing', () => {
             uid: '2d73gd2i2dyg2i3df5632h7h',
             name: 'Ted'
           }
-        ] 
+        ]
       },
       {
         shiftType: 'evening',
@@ -30,15 +30,15 @@ describe('Pretty Printing', () => {
             uid: 'i3df5632h7h2d73gd2i2dyg2',
             name: 'Garth'
           }
-        ] 
+        ]
       }
     ]
 
-    const loggingFunction = jest.fn();
-    const formatter = new RosterFormatter(loggingFunction, roster);
-    
-    formatter.output();
+    const loggingFunction = jest.fn()
+    RosterFormatter.output(loggingFunction, roster)
 
-    expect(loggingFunction).toHaveBeenCalledWith('Mon Jan 10 1972 | morning | Bill, Ted\nTue Sep 21 1993 | evening | Wayne, Garth\n');
-  }) 
+    expect(loggingFunction).toHaveBeenCalledWith(
+      'Mon Jan 10 1972 | morning | Bill, Ted\nTue Sep 21 1993 | evening | Wayne, Garth\n'
+    )
+  })
 })

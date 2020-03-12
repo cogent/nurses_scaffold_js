@@ -1,66 +1,68 @@
-const { NurseRosterer } = require('./src/rostering/NurseRosterer');
-const { RosterFormatter } = require('./src/rostering/RosterFormatter');
+import fs from 'fs'
+import yargs from 'yargs'
+import {RosterBuilder} from './src/rostering/RosterBuilder'
+import {RosterFormatter} from './src/rostering/RosterFormatter'
 
-fs = require("fs")
+const validateArgs = args => {
+  let errors = []
 
-const validateArgs = (args) => {
-  let errors = [];
-
-  if(isNaN(args["start-date"])){
-    errors.push("please provide valid start date");
+  if (isNaN(args['start-date'])) {
+    errors.push('please provide valid start date')
   }
 
-  if(isNaN(args["end-date"])){
-    errors.push("please provide valid end date");
+  if (isNaN(args['end-date'])) {
+    errors.push('please provide valid end date')
   }
 
-  if(!fs.existsSync(args["filename"])){
-    errors.push("input file does not exist");
+  if (!fs.existsSync(args['filename'])) {
+    errors.push('input file does not exist')
   }
 
-  if(args["start-date"] > args["end-date"]){
-    errors.push("please provide a valid date range");
+  if (args['start-date'] > args['end-date']) {
+    errors.push('please provide a valid date range')
   }
 
-  if(errors.length > 0) {
-    console.log("\n" + errors.length + " parameter errors found:");
-    console.log("===============================")
-    errors.forEach(function(error){
-      console.log("- " + error);
+  if (errors.length > 0) {
+    console.log('\n' + errors.length + ' parameter errors found:')
+    console.log('===============================')
+
+    errors.forEach(function(error) {
+      console.log('- ' + error)
     })
-    console.log("\n");
+
+    console.log('\n')
     process.exit()
   }
 }
 
 // Just an example. Tackle this however you like.
-const getRosteredNurses = (args) => {
-  return new NurseRosterer(args["filename"], args["start-date"], args["end-date"]).build();
+const getRosteredNurses = args => {
+  RosterBuilder.build({
+    filename: args['filename'],
+    startDate: args['start-date'],
+    endDate: args['end-date']
+  })
 }
 
-const outputFormattedRoster = (roster) => {
-  (new RosterFormatter(console.log, roster)).output();
-}
+const outputFormattedRoster = roster =>
+  RosterFormatter.output(console.log, roster)
 
-require("yargs")
-  .usage("$0 <cmd> [args]")
-  .option("start-date", {
-    alias: "s",
-    describe: "the first date of the period to roster, in YYYY-MM-DD format"
+yargs
+  .usage('$0 <cmd> [args]')
+  .option('start-date', {
+    describe: 'the first date of the period to roster, in YYYY-MM-DD format'
   })
-  .option("end-date", {
-    alias: "e",
-    describe: "the final date of the period to roster, in YYYY-MM-DD format"
+  .option('end-date', {
+    describe: 'the final date of the period to roster, in YYYY-MM-DD format'
   })
-  .option("filename", {
-    alias: "f",
-    describe: "a nurses file to import"
+  .option('filename', {
+    describe: 'a nurses file to import'
   })
-  .coerce(["start-date", "end-date"], Date.parse)
-  .demandOption(["start-date", "end-date", "filename"])
+  .coerce(['start-date', 'end-date'], Date.parse)
+  .demandOption(['start-date', 'end-date', 'filename'])
   .command(
-    "$0",
-    "Build a nurses roster",
+    '$0',
+    'Build a nurses roster',
     () => {},
     argv => {
       validateArgs(argv)
