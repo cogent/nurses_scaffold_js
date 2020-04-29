@@ -1,15 +1,12 @@
-import csv from 'async-csv'
 import fs from 'fs'
 
-const loadNurses = async filename => {
+const loadNurses = filename => {
   const contents = fs.readFileSync(filename)
-  const [header, ...rows] = await csv.parse(contents.toString())
-
-  return rows
+  return JSON.parse(contents)
 }
 
-const build = async ({filename, startDate, endDate}) => {
-  const nurses = await loadNurses(filename)
+const build = ({filename, startDate, endDate}) => {
+  const nurses = loadNurses(filename)
 
   throw 'RosterBuilder#build Not Implemented'
 }
